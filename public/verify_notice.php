@@ -22,10 +22,7 @@ $link = $_SESSION['last_verification_link'] ?? '';
             <h1 class="auth-title">Verify your email</h1>
             <p class="auth-subtitle">We created your account. Please verify your email before logging in.</p>
             <?php if ($email): ?><p><b><?= htmlspecialchars($email, ENT_QUOTES, 'UTF-8') ?></b></p>
-            <?php endif; ?><?php if ($link): ?><p>Local testing link:</p>
-            <div class="small-link"><a
-                    href="<?= htmlspecialchars($link, ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($link, ENT_QUOTES, 'UTF-8') ?></a>
-            </div><?php else: ?><p>Check your email inbox, or resend the verification link.</p><?php endif; ?><br><a
+            <?php endif; ?><br><a
                 class="btn-primary" href="index.php">Back to login</a>
         </section>
     </main>
