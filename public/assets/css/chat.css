@@ -1,0 +1,13 @@
+/* Main ChatZone chat layout and message styling. */
+@import url("chat/00-base.css?v=refactor-v1-20260601");
+@import url("chat/10-layout.css?v=refactor-v1-20260601");
+@import url("chat/20-chat.css?v=refactor-v1-20260601");
+@import url("chat/30-components.css?v=refactor-v1-20260601");
+@import url("chat/40-mobile-dark.css?v=refactor-v1-20260601");
+
+
+.receipt-status{font-size:11px;opacity:.75;margin-top:4px;text-align:right;}
+.receipt-status.read{color:#3b82f6;opacity:1;font-weight:700;}
+.receipt-status.delivered{opacity:.85;}
+.group-seen-count{font-size:11px;opacity:.65;margin-top:4px;text-align:right;}
+.group-seen-count.seen{color:#3b82f6;opacity:1;}

@@ -1,0 +1,71 @@
+:root{
+    --gm-bg:#f4f6f8;
+    --gm-card:#ffffff;
+    --gm-card-2:#f8fafc;
+    --gm-text:#111827;
+    --gm-muted:#64748b;
+    --gm-border:#d8dee6;
+    --gm-green:#00a884;
+    --gm-danger:#dc2626;
+    --gm-shadow:0 16px 38px rgba(15,23,42,.10);
+}
+body.dark-mode,
+body.cz-dark,
+body[data-theme="dark"]{
+    --gm-bg:#0b141a;
+    --gm-card:#111b21;
+    --gm-card-2:#1f2c33;
+    --gm-text:#e9edef;
+    --gm-muted:#9fb0ba;
+    --gm-border:#2a3942;
+    --gm-shadow:0 16px 38px rgba(0,0,0,.30);
+}
+body.group-members-page{
+    min-height:100vh;
+    margin:0;
+    background:var(--gm-bg)!important;
+    color:var(--gm-text)!important;
+    font-family:Arial, sans-serif;
+    overflow-y:auto!important;
+}
+.gm-shell{max-width:980px;margin:0 auto;padding:28px 16px 80px;}
+.gm-header{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:18px;}
+.gm-title{display:flex;gap:12px;align-items:center;}
+.gm-avatar{width:52px;height:52px;border-radius:18px;background:linear-gradient(135deg,#00a884,#128c7e);display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:var(--gm-shadow);}
+.gm-title h1{font-size:28px;line-height:1.15;margin:0;color:var(--gm-text)!important;}
+.gm-sub{margin-top:5px;color:var(--gm-muted)!important;font-size:14px;}
+.gm-top-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;}
+.gm-card{background:var(--gm-card)!important;border:1px solid var(--gm-border)!important;border-radius:22px;padding:18px;margin:14px 0;box-shadow:var(--gm-shadow);color:var(--gm-text)!important;}
+.gm-card h2,.gm-card h3{margin:0 0 14px;color:var(--gm-text)!important;}
+.gm-link,.gm-btn{border:0;border-radius:999px;padding:10px 14px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;font-size:14px;}
+.gm-link{background:var(--gm-card-2);color:var(--gm-text)!important;border:1px solid var(--gm-border);}
+.gm-btn{background:var(--gm-green);color:#fff!important;}
+.gm-btn.secondary{background:var(--gm-card-2);color:var(--gm-text)!important;border:1px solid var(--gm-border);}
+.gm-btn.danger{background:var(--gm-danger)!important;color:#fff!important;}
+.gm-grid{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;}
+.gm-input,.gm-select{width:100%;padding:12px 14px;border-radius:14px;border:1px solid var(--gm-border)!important;background:var(--gm-card-2)!important;color:var(--gm-text)!important;outline:none;}
+.gm-input:focus,.gm-select:focus{border-color:var(--gm-green)!important;box-shadow:0 0 0 3px rgba(0,168,132,.18);}
+.gm-alert{padding:12px 14px;border-radius:16px;margin:14px 0;font-weight:700;}
+.gm-alert.error{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;}
+body.dark-mode .gm-alert.error{background:#7f1d1d;color:#fee2e2;border-color:#ef4444;}
+.gm-alert.success{background:#dcfce7;color:#166534;border:1px solid #86efac;}
+body.dark-mode .gm-alert.success{background:#14532d;color:#dcfce7;border-color:#22c55e;}
+.gm-member{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px;border:1px solid var(--gm-border);border-radius:18px;background:var(--gm-card-2);margin-bottom:10px;}
+.gm-member-info{display:flex;gap:12px;align-items:center;min-width:0;}
+.gm-person{width:42px;height:42px;border-radius:50%;background:var(--gm-green);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;flex:0 0 auto;}
+.gm-name{font-weight:800;color:var(--gm-text)!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.gm-email{font-size:13px;color:var(--gm-muted)!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.gm-role{font-size:12px;text-transform:uppercase;letter-spacing:.04em;background:rgba(0,168,132,.14);color:var(--gm-green);padding:4px 8px;border-radius:999px;font-weight:800;display:inline-block;margin-top:4px;}
+.gm-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+.gm-actions form{margin:0;}
+.gm-muted{color:var(--gm-muted)!important;font-size:14px;}
+@media(max-width:720px){
+    .gm-shell{padding:18px 12px 80px;}
+    .gm-header{flex-direction:column;align-items:stretch;}
+    .gm-top-actions{justify-content:flex-start;}
+    .gm-title h1{font-size:22px;}
+    .gm-grid{grid-template-columns:1fr;}
+    .gm-member{align-items:flex-start;flex-direction:column;}
+    .gm-actions{justify-content:flex-start;width:100%;}
+    .gm-btn,.gm-link{width:auto;}
+}

@@ -1,0 +1,4 @@
+
+if (document.documentElement.classList.contains('dark-mode')) {
+    document.body.classList.add('dark-mode');
+}

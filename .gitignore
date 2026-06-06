@@ -1,0 +1,13 @@
+includes/config.php
+includes/config/app.php
+public/uploads/profiles/*
+public/uploads/messages/*
+public/assets/img/*
+screenshot/*
+!public/uploads/profiles/default.png
+.env
+*.log
+.DS_Store
+Thumbs.db
+.env
+public/uploads/

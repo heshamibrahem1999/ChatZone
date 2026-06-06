@@ -1,0 +1,6 @@
+.switch-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px;border:1px solid var(--border);border-radius:16px;margin-bottom:14px;background:#fff;}
+        .switch-row strong{display:block;margin-bottom:4px;}
+        .switch-row span{color:var(--muted);font-size:14px;line-height:1.4;}
+        .switch-row input{width:22px;height:22px;accent-color:var(--primary);}
+        .mini-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+        .mini-actions .back-link{margin-top:0;}
