@@ -42,10 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
                 <div class="form-group"><label>Email</label><input type="email" name="email" required></div><button
                     class="btn-primary">Generate reset link</button>
-            </form><?php if ($link): ?><p>Local testing link:</p>
-            <div class="small-link"><a
-                    href="<?= htmlspecialchars($link, ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($link, ENT_QUOTES, 'UTF-8') ?></a>
-            </div><?php endif; ?><div class="auth-link"><a href="index.php">Back to login</a></div>
+            </form>
+            <div class="auth-link"><a href="index.php">Back to login</a></div>
         </section>
     </main>
 </body>
