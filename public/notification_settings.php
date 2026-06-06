@@ -55,6 +55,7 @@ $dir = $isArabic ? 'rtl' : 'ltr';
 ?>
 <!DOCTYPE html>
 <html lang="<?= e($langCode) ?>" dir="<?= e($dir) ?>">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -62,49 +63,54 @@ $dir = $isArabic ? 'rtl' : 'ltr';
     <link rel="stylesheet" href="assets/css/auth.css">
     <link rel="stylesheet" href="assets/css/extracted/public__notification_settings.css">
 </head>
+
 <body>
-<main class="auth-page">
-    <section class="auth-card settings-card">
-        <div class="auth-logo">🔔</div>
-        <h1 class="auth-title">Notification Settings</h1>
-        <p class="auth-subtitle">Control sound and browser notification preferences for your account.</p>
+    <main class="auth-page">
+        <section class="auth-card settings-card">
+            <div class="auth-logo">🔔</div>
+            <h1 class="auth-title">Notification Settings</h1>
+            <p class="auth-subtitle">Control sound and browser notification preferences for your account.</p>
 
-        <?php if ($message): ?>
+            <?php if ($message): ?>
             <div class="alert <?= e($messageType) ?>"><?= e($message) ?></div>
-        <?php endif; ?>
+            <?php endif; ?>
 
-        <form method="post">
-            <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+            <form method="post">
+                <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
 
-            <label class="switch-row">
-                <div>
-                    <strong>Message sound</strong>
-                    <span>Play a small sound when new messages arrive.</span>
-                </div>
-                <input type="checkbox" name="notify_sound" value="1" <?= ((int)($user['notify_sound'] ?? 1) === 1) ? 'checked' : '' ?>>
-            </label>
+                <label class="switch-row">
+                    <div>
+                        <strong>Message sound</strong>
+                        <span>Play a small sound when new messages arrive.</span>
+                    </div>
+                    <input type="checkbox" name="notify_sound" value="1"
+                        <?= ((int)($user['notify_sound'] ?? 1) === 1) ? 'checked' : '' ?>>
+                </label>
 
-            <label class="switch-row">
-                <div>
-                    <strong>Browser notifications</strong>
-                    <span>Show notifications when ChatZone is open in another tab, minimized, or inactive.</span>
-                    <span id="browserPermissionStatus" style="display:block;margin-top:6px;font-size:12px;"></span>
-                </div>
-                <input type="checkbox" name="notify_browser" value="1" <?= ((int)($user['notify_browser'] ?? 1) === 1) ? 'checked' : '' ?>>
-            </label>
+                <label class="switch-row">
+                    <div>
+                        <strong>Browser notifications</strong>
+                        <span>Show notifications when ChatZone is open in another tab, minimized, or inactive.</span>
+                        <span id="browserPermissionStatus" style="display:block;margin-top:6px;font-size:12px;"></span>
+                    </div>
+                    <input type="checkbox" name="notify_browser" value="1"
+                        <?= ((int)($user['notify_browser'] ?? 1) === 1) ? 'checked' : '' ?>>
+                </label>
 
-            <button class="btn-primary" type="submit">Save Settings</button>
-            <button class="back-link" type="button" id="enableBrowserNotifications" style="border:0;cursor:pointer;">Enable browser permission</button>
-        </form>
+                <button class="btn-primary" type="submit">Save Settings</button>
+                <button class="back-link" type="button" id="enableBrowserNotifications"
+                    style="border:0;cursor:pointer;">Enable browser permission</button>
+            </form>
 
-        <div class="mini-actions">
-            <a class="back-link" href="chat.php">← Back to Chat</a>
-            <a class="back-link" href="profile.php">Profile Settings</a>
-        </div>
-    </section>
-</main>
+            <div class="mini-actions">
+                <a class="back-link" href="chat.php">← Back to Chat</a>
+                <a class="back-link" href="profile.php">Profile Settings</a>
+            </div>
+        </section>
+    </main>
 
-<script src="assets/js/push-notifications.js?v=20260605-v19-push"></script>
-<script src="assets/js/extracted/public__notification_settings-1.js"></script>
+    <script src="assets/js/push-notifications.js?v=20260605-v19-push"></script>
+    <script src="assets/js/extracted/public__notification_settings-1.js"></script>
 </body>
+
 </html>

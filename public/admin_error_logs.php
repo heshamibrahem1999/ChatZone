@@ -44,45 +44,55 @@ function cz_log_size($bytes): string {
 ?>
 <!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Error Logs - ChatZone</title>
-<link rel="stylesheet" href="assets/css/extracted/public__admin_error_logs.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Error Logs - ChatZone</title>
+    <link rel="stylesheet" href="assets/css/extracted/public__admin_error_logs.css">
 </head>
+
 <body>
-<div class="wrap">
-    <div class="top">
-        <div><h1>🧯 Error Logs</h1><div class="muted">View the last 300 lines from common PHP/Apache log files.</div></div>
-        <div><a class="btn" href="admin_health.php">Health</a> <a class="btn" href="admin_dashboard.php">Dashboard</a> <a class="btn" href="chat.php">Chat</a></div>
-    </div>
+    <div class="wrap">
+        <div class="top">
+            <div>
+                <h1>🧯 Error Logs</h1>
+                <div class="muted">View the last 300 lines from common PHP/Apache log files.</div>
+            </div>
+            <div><a class="btn" href="admin_health.php">Health</a> <a class="btn"
+                    href="admin_dashboard.php">Dashboard</a> <a class="btn" href="chat.php">Chat</a></div>
+        </div>
 
-    <div class="card">
-        <form method="get">
-            <label class="muted">Choose log file</label><br><br>
-            <select name="log" onchange="this.form.submit()">
-                <?php foreach ($logs as $label => $path): ?>
+        <div class="card">
+            <form method="get">
+                <label class="muted">Choose log file</label><br><br>
+                <select name="log" onchange="this.form.submit()">
+                    <?php foreach ($logs as $label => $path): ?>
                     <?php $exists = is_file($path) && is_readable($path); ?>
-                    <option value="<?= e($label) ?>" <?= $label === $selectedKey ? 'selected' : '' ?>><?= e($label) ?> — <?= $exists ? 'found' : 'missing' ?></option>
-                <?php endforeach; ?>
-            </select>
-        </form>
-    </div>
+                    <option value="<?= e($label) ?>" <?= $label === $selectedKey ? 'selected' : '' ?>><?= e($label) ?> —
+                        <?= $exists ? 'found' : 'missing' ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </form>
+        </div>
 
-    <div class="card">
-        <div class="row"><span>Status</span><span class="badge <?= $status === 'Readable' ? 'ok' : ($status === 'Not found' ? 'warn' : 'bad') ?>"><?= e($status) ?></span></div>
-        <div class="row"><span>Path</span><code><?= e($selectedPath) ?></code></div>
-        <div class="row"><span>Size</span><span><?= e(cz_log_size((int)$size)) ?></span></div>
-    </div>
+        <div class="card">
+            <div class="row"><span>Status</span><span
+                    class="badge <?= $status === 'Readable' ? 'ok' : ($status === 'Not found' ? 'warn' : 'bad') ?>"><?= e($status) ?></span>
+            </div>
+            <div class="row"><span>Path</span><code><?= e($selectedPath) ?></code></div>
+            <div class="row"><span>Size</span><span><?= e(cz_log_size((int)$size)) ?></span></div>
+        </div>
 
-    <div class="card">
-        <h2>Latest lines</h2>
-        <?php if ($contents === ''): ?>
+        <div class="card">
+            <h2>Latest lines</h2>
+            <?php if ($contents === ''): ?>
             <p class="muted">No readable log content found here. Try another option above.</p>
-        <?php else: ?>
+            <?php else: ?>
             <pre><?= e($contents) ?></pre>
-        <?php endif; ?>
+            <?php endif; ?>
+        </div>
     </div>
-</div>
 </body>
+
 </html>

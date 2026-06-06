@@ -41,20 +41,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <!doctype html>
-<html><head><meta charset="utf-8"><title>Create Poll</title><link rel="stylesheet" href="assets/css/chat.css?v=20260530-cachefix-1">
-<link rel="stylesheet" href="assets/css/extracted/public__group_poll_create.css">
-</head><body><div class="wrap">
-<h2>📊 Create poll in <?= e($group['name']) ?></h2>
-<?php if ($error): ?><div class="error"><?= e($error) ?></div><?php endif; ?>
-<form method="post">
-<input type="hidden" name="group_id" value="<?= $groupId ?>">
-<div class="field"><label>Question</label><input name="question" maxlength="255" required placeholder="What should we choose?"></div>
-<div id="options">
-  <div class="field"><label>Option 1</label><input name="options[]" maxlength="255" required></div>
-  <div class="field"><label>Option 2</label><input name="options[]" maxlength="255" required></div>
-  <div class="field"><label>Option 3</label><input name="options[]" maxlength="255"></div>
-  <div class="field"><label>Option 4</label><input name="options[]" maxlength="255"></div>
-</div>
-<button class="btn" type="submit">Create Poll</button>
-<a class="btn btn-secondary" href="group.php?id=<?= $groupId ?>">Cancel</a>
-</form></div></body></html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Create Poll</title>
+    <link rel="stylesheet" href="assets/css/chat.css?v=20260530-cachefix-1">
+    <link rel="stylesheet" href="assets/css/extracted/public__group_poll_create.css">
+</head>
+
+<body>
+    <div class="wrap">
+        <h2>📊 Create poll in <?= e($group['name']) ?></h2>
+        <?php if ($error): ?><div class="error"><?= e($error) ?></div><?php endif; ?>
+        <form method="post">
+            <input type="hidden" name="group_id" value="<?= $groupId ?>">
+            <div class="field"><label>Question</label><input name="question" maxlength="255" required
+                    placeholder="What should we choose?"></div>
+            <div id="options">
+                <div class="field"><label>Option 1</label><input name="options[]" maxlength="255" required></div>
+                <div class="field"><label>Option 2</label><input name="options[]" maxlength="255" required></div>
+                <div class="field"><label>Option 3</label><input name="options[]" maxlength="255"></div>
+                <div class="field"><label>Option 4</label><input name="options[]" maxlength="255"></div>
+            </div>
+            <button class="btn" type="submit">Create Poll</button>
+            <a class="btn btn-secondary" href="group.php?id=<?= $groupId ?>">Cancel</a>
+        </form>
+    </div>
+</body>
+
+</html>

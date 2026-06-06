@@ -31,32 +31,40 @@ $items = $stmt->fetchAll();
 ?>
 <!doctype html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<title>Scheduled Messages</title>
-<link rel="stylesheet" href="assets/css/chat.css?v=20260530-cachefix-1">
-<link rel="stylesheet" href="assets/css/extracted/public__scheduled_messages.css">
+    <meta charset="utf-8">
+    <title>Scheduled Messages</title>
+    <link rel="stylesheet" href="assets/css/chat.css?v=20260530-cachefix-1">
+    <link rel="stylesheet" href="assets/css/extracted/public__scheduled_messages.css">
 </head>
+
 <body>
-<div class="page-wrap">
-  <div class="topbar"><h1>⏰ Scheduled Messages</h1><a href="chat.php">← Back to chat</a></div>
-  <?php if (!$items): ?>
-    <div class="card">No scheduled messages yet.</div>
-  <?php endif; ?>
-  <?php foreach ($items as $item): ?>
-    <div class="card">
-      <div><strong>To:</strong> <?= e($item['friend_name'] ?: 'User') ?> <span class="badge <?= e($item['status']) ?>"><?= e($item['status']) ?></span></div>
-      <div class="msg-text"><?= e($item['body']) ?></div>
-      <div class="muted">Scheduled: <?= e($item['scheduled_at']) ?><?= $item['sent_at'] ? ' · Sent: ' . e($item['sent_at']) : '' ?></div>
-      <?php if ($item['status'] === 'pending'): ?>
-        <form method="post" action="cancel_scheduled_message.php" style="margin-top:10px" onsubmit="return confirm('Cancel this scheduled message?')">
-          <input type="hidden" name="id" value="<?= (int)$item['id'] ?>">
-          <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
-          <button class="cancel-btn" type="submit">Cancel</button>
-        </form>
-      <?php endif; ?>
+    <div class="page-wrap">
+        <div class="topbar">
+            <h1>⏰ Scheduled Messages</h1><a href="chat.php">← Back to chat</a>
+        </div>
+        <?php if (!$items): ?>
+        <div class="card">No scheduled messages yet.</div>
+        <?php endif; ?>
+        <?php foreach ($items as $item): ?>
+        <div class="card">
+            <div><strong>To:</strong> <?= e($item['friend_name'] ?: 'User') ?> <span
+                    class="badge <?= e($item['status']) ?>"><?= e($item['status']) ?></span></div>
+            <div class="msg-text"><?= e($item['body']) ?></div>
+            <div class="muted">Scheduled:
+                <?= e($item['scheduled_at']) ?><?= $item['sent_at'] ? ' · Sent: ' . e($item['sent_at']) : '' ?></div>
+            <?php if ($item['status'] === 'pending'): ?>
+            <form method="post" action="cancel_scheduled_message.php" style="margin-top:10px"
+                onsubmit="return confirm('Cancel this scheduled message?')">
+                <input type="hidden" name="id" value="<?= (int)$item['id'] ?>">
+                <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+                <button class="cancel-btn" type="submit">Cancel</button>
+            </form>
+            <?php endif; ?>
+        </div>
+        <?php endforeach; ?>
     </div>
-  <?php endforeach; ?>
-</div>
 </body>
+
 </html>

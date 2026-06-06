@@ -1,1 +1,57 @@
-.page-wrap{max-width:900px;margin:30px auto;padding:0 16px}.card{background:#fff;border:1px solid #ddd;border-radius:14px;padding:16px;margin-bottom:12px}.muted{color:#667}.badge{padding:4px 8px;border-radius:999px;background:#eee;font-size:12px}.pending{background:#fff4cc}.sent{background:#d9fbe3}.cancelled{background:#eee}.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.msg-text{white-space:pre-wrap;margin:10px 0}.cancel-btn{border:0;border-radius:8px;background:#ef4444;color:#fff;padding:8px 10px;cursor:pointer}
+.page-wrap {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 16px
+}
+
+.card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 12px
+}
+
+.muted {
+    color: #667
+}
+
+.badge {
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: #eee;
+    font-size: 12px
+}
+
+.pending {
+    background: #fff4cc
+}
+
+.sent {
+    background: #d9fbe3
+}
+
+.cancelled {
+    background: #eee
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px
+}
+
+.msg-text {
+    white-space: pre-wrap;
+    margin: 10px 0
+}
+
+.cancel-btn {
+    border: 0;
+    border-radius: 8px;
+    background: #ef4444;
+    color: #fff;
+    padding: 8px 10px;
+    cursor: pointer
+}

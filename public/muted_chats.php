@@ -53,6 +53,7 @@ $muted = $stmt->fetchAll();
 ?>
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -60,38 +61,42 @@ $muted = $stmt->fetchAll();
     <link rel="stylesheet" href="assets/css/chat.css?v=20260530-cachefix-1">
     <link rel="stylesheet" href="assets/css/extracted/public__muted_chats.css">
 </head>
-<body>
-<div class="page-wrap">
-    <div class="page-card">
-        <div class="topbar">
-            <h2>🔕 Muted Chats</h2>
-            <a class="btn" href="chat.php">← Back to Chat</a>
-        </div>
 
-        <?php if (empty($muted)): ?>
+<body>
+    <div class="page-wrap">
+        <div class="page-card">
+            <div class="topbar">
+                <h2>🔕 Muted Chats</h2>
+                <a class="btn" href="chat.php">← Back to Chat</a>
+            </div>
+
+            <?php if (empty($muted)): ?>
             <div class="empty">No muted chats yet.</div>
-        <?php else: ?>
+            <?php else: ?>
             <?php foreach ($muted as $chat): ?>
-                <div class="mute-row">
-                    <img src="uploads/profiles/<?= e($chat['profile_photo'] ?: 'default.png') ?>" alt="Friend">
-                    <div class="meta">
-                        <div class="name"><?= e(trim($chat['first_name'] . ' ' . $chat['last_name'])) ?></div>
-                        <div class="last"><?= e($chat['last_message'] ?: 'No messages yet') ?></div>
-                        <div class="until">Muted <?= empty($chat['muted_until']) ? 'forever' : 'until ' . e(date('M j, Y H:i', strtotime($chat['muted_until']))) ?></div>
-                    </div>
-                    <div class="actions">
-                        <a class="btn" href="chat.php?friendship=<?= (int)$chat['friendship_id'] ?>">Open</a>
-                        <form method="post" action="mute_chat.php">
-                            <input type="hidden" name="friendship_id" value="<?= (int)$chat['friendship_id'] ?>">
-                            <input type="hidden" name="duration" value="unmute">
-                            <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
-                            <button class="btn primary" type="submit">Unmute</button>
-                        </form>
+            <div class="mute-row">
+                <img src="uploads/profiles/<?= e($chat['profile_photo'] ?: 'default.png') ?>" alt="Friend">
+                <div class="meta">
+                    <div class="name"><?= e(trim($chat['first_name'] . ' ' . $chat['last_name'])) ?></div>
+                    <div class="last"><?= e($chat['last_message'] ?: 'No messages yet') ?></div>
+                    <div class="until">Muted
+                        <?= empty($chat['muted_until']) ? 'forever' : 'until ' . e(date('M j, Y H:i', strtotime($chat['muted_until']))) ?>
                     </div>
                 </div>
+                <div class="actions">
+                    <a class="btn" href="chat.php?friendship=<?= (int)$chat['friendship_id'] ?>">Open</a>
+                    <form method="post" action="mute_chat.php">
+                        <input type="hidden" name="friendship_id" value="<?= (int)$chat['friendship_id'] ?>">
+                        <input type="hidden" name="duration" value="unmute">
+                        <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+                        <button class="btn primary" type="submit">Unmute</button>
+                    </form>
+                </div>
+            </div>
             <?php endforeach; ?>
-        <?php endif; ?>
+            <?php endif; ?>
+        </div>
     </div>
-</div>
 </body>
+
 </html>

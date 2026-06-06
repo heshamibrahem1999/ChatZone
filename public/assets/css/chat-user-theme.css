@@ -1,1 +1,7 @@
-:root{--user-theme:#00a884;--user-bg:#efeae2;--user-text:#111111;--user-bubble:#d9fdd3;--user-size:16px;}
+:root {
+    --user-theme: #00a884;
+    --user-bg: #efeae2;
+    --user-text: #111111;
+    --user-bubble: #d9fdd3;
+    --user-size: 16px;
+}

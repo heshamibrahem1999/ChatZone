@@ -117,11 +117,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Create Account - ChatZone</title>
     <link rel="stylesheet" href="assets/css/auth.css">
 </head>
+
 <body>
     <main class="auth-page">
         <section class="auth-card">
@@ -131,9 +133,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p class="auth-subtitle">Join ChatZone and start chatting with your friends.</p>
 
             <?php if ($message): ?>
-                <div class="alert error">
-                    <?= htmlspecialchars($message) ?>
-                </div>
+            <div class="alert error">
+                <?= htmlspecialchars($message) ?>
+            </div>
             <?php endif; ?>
 
             <form method="POST" enctype="multipart/form-data">
@@ -184,4 +186,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </section>
     </main>
 </body>
+
 </html>

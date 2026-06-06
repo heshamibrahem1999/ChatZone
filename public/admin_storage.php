@@ -68,56 +68,84 @@ $notWritable = array_filter($rows, fn($r) => $r['exists'] && !$r['writable']);
 ?>
 <!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Storage - ChatZone</title>
-<link rel="stylesheet" href="assets/css/extracted/public__admin_storage.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Storage - ChatZone</title>
+    <link rel="stylesheet" href="assets/css/extracted/public__admin_storage.css">
 </head>
+
 <body>
-<div class="wrap">
-    <div class="top">
-        <div><h1>🗂️ Storage Manager</h1><div class="muted">Monitor upload folders and media usage.</div></div>
-        <div class="actions"><a class="btn" href="admin_dashboard.php">Dashboard</a><a class="btn" href="admin_health.php">Health</a><a class="btn" href="chat.php">Chat</a></div>
+    <div class="wrap">
+        <div class="top">
+            <div>
+                <h1>🗂️ Storage Manager</h1>
+                <div class="muted">Monitor upload folders and media usage.</div>
+            </div>
+            <div class="actions"><a class="btn" href="admin_dashboard.php">Dashboard</a><a class="btn"
+                    href="admin_health.php">Health</a><a class="btn" href="chat.php">Chat</a></div>
+        </div>
+
+        <section class="grid">
+            <div class="card">
+                <div class="muted">Upload files</div><strong><?= (int)$totalFiles ?></strong>
+            </div>
+            <div class="card">
+                <div class="muted">Used storage</div><strong><?= e(cz_storage_format_bytes($totalBytes)) ?></strong>
+            </div>
+            <div class="card">
+                <div class="muted">DB private media</div><strong><?= (int)$dbPrivateMedia ?></strong>
+            </div>
+            <div class="card">
+                <div class="muted">DB group media</div><strong><?= (int)$dbGroupMedia ?></strong>
+            </div>
+        </section>
+
+        <?php if (!empty($missingFolders)): ?>
+        <div class="notice"><b>Missing folders:</b>
+            <?= e(implode(', ', array_map(fn($r) => $r['name'], $missingFolders))) ?></div>
+        <?php endif; ?>
+        <?php if (!empty($notWritable)): ?>
+        <div class="notice"><b>Not writable:</b> <?= e(implode(', ', array_map(fn($r) => $r['name'], $notWritable))) ?>.
+            Uploads may fail there.</div>
+        <?php endif; ?>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Folder</th>
+                    <th>Status</th>
+                    <th>Files</th>
+                    <th>Size</th>
+                    <th>Latest file</th>
+                    <th>Path</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($rows as $r): ?>
+                <tr>
+                    <td><b><?= e($r['name']) ?></b></td>
+                    <td>
+                        <?php if (!$r['exists']): ?><span class="badge bad">Missing</span>
+                        <?php elseif (!$r['writable']): ?><span class="badge warn">Not writable</span>
+                        <?php else: ?><span class="badge ok">Writable</span><?php endif; ?>
+                    </td>
+                    <td><?= (int)$r['files'] ?></td>
+                    <td><?= e(cz_storage_format_bytes((int)$r['bytes'])) ?></td>
+                    <td><?= $r['latest'] ? e(date('Y-m-d H:i', (int)$r['latest'])) : '<span class="muted">—</span>' ?>
+                    </td>
+                    <td><code><?= e($r['path']) ?></code></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+        <div class="notice">
+            Safe cleanup rule: do not manually delete upload files unless you first export a backup and confirm the file
+            is not used in `messages`, `group_messages`, or user profile/avatar fields.
+        </div>
     </div>
-
-    <section class="grid">
-        <div class="card"><div class="muted">Upload files</div><strong><?= (int)$totalFiles ?></strong></div>
-        <div class="card"><div class="muted">Used storage</div><strong><?= e(cz_storage_format_bytes($totalBytes)) ?></strong></div>
-        <div class="card"><div class="muted">DB private media</div><strong><?= (int)$dbPrivateMedia ?></strong></div>
-        <div class="card"><div class="muted">DB group media</div><strong><?= (int)$dbGroupMedia ?></strong></div>
-    </section>
-
-    <?php if (!empty($missingFolders)): ?>
-        <div class="notice"><b>Missing folders:</b> <?= e(implode(', ', array_map(fn($r) => $r['name'], $missingFolders))) ?></div>
-    <?php endif; ?>
-    <?php if (!empty($notWritable)): ?>
-        <div class="notice"><b>Not writable:</b> <?= e(implode(', ', array_map(fn($r) => $r['name'], $notWritable))) ?>. Uploads may fail there.</div>
-    <?php endif; ?>
-
-    <table class="table">
-        <thead><tr><th>Folder</th><th>Status</th><th>Files</th><th>Size</th><th>Latest file</th><th>Path</th></tr></thead>
-        <tbody>
-        <?php foreach ($rows as $r): ?>
-            <tr>
-                <td><b><?= e($r['name']) ?></b></td>
-                <td>
-                    <?php if (!$r['exists']): ?><span class="badge bad">Missing</span>
-                    <?php elseif (!$r['writable']): ?><span class="badge warn">Not writable</span>
-                    <?php else: ?><span class="badge ok">Writable</span><?php endif; ?>
-                </td>
-                <td><?= (int)$r['files'] ?></td>
-                <td><?= e(cz_storage_format_bytes((int)$r['bytes'])) ?></td>
-                <td><?= $r['latest'] ? e(date('Y-m-d H:i', (int)$r['latest'])) : '<span class="muted">—</span>' ?></td>
-                <td><code><?= e($r['path']) ?></code></td>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
-
-    <div class="notice">
-        Safe cleanup rule: do not manually delete upload files unless you first export a backup and confirm the file is not used in `messages`, `group_messages`, or user profile/avatar fields.
-    </div>
-</div>
 </body>
+
 </html>

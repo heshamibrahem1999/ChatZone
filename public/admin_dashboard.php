@@ -50,6 +50,7 @@ if ($hasReports) {
 ?>
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -57,86 +58,138 @@ if ($hasReports) {
     <link rel="stylesheet" href="assets/css/chat.css?v=20260530-cachefix-1">
     <link rel="stylesheet" href="assets/css/extracted/public__admin_dashboard.css?v=20260606-mobilefix">
 </head>
+
 <body>
-<main class="dash">
-    <div class="dash-top">
-        <div><h1>📊 Admin Dashboard</h1><p class="muted">Quick overview of ChatZone activity.</p></div>
-        <div class="dash-actions">
-            <a class="dash-btn" href="admin_users.php">👥 Users</a>
-            <a class="dash-btn" href="reports.php">⚠️ Reports</a>
-            <a class="dash-btn" href="admin_announcements.php">📢 Announcements</a>
-            <a class="dash-btn" href="admin_backup.php">🧰 Backup</a>
-            <a class="dash-btn" href="admin_activity.php">🧾 Logs</a>
-            <a class="dash-btn" href="chat.php">← Chat</a>
-        </div>
-    </div>
-
-    <section class="stats-grid">
-        <div class="stat-card"><div>Total users</div><strong><?= (int)$stats['users'] ?></strong></div>
-        <div class="stat-card"><div>Online now</div><strong><?= (int)$stats['online'] ?></strong></div>
-        <div class="stat-card"><div>Private messages</div><strong><?= (int)$stats['private_messages'] ?></strong></div>
-        <div class="stat-card"><div>Groups</div><strong><?= (int)$stats['groups'] ?></strong></div>
-        <div class="stat-card"><div>Group messages</div><strong><?= (int)$stats['group_messages'] ?></strong></div>
-        <div class="stat-card"><div>Voice messages</div><strong><?= (int)$stats['voice_messages'] ?></strong></div>
-        <div class="stat-card"><div>Image messages</div><strong><?= (int)$stats['image_messages'] ?></strong></div>
-        <div class="stat-card"><div>Open reports</div><strong><?= (int)$stats['open_reports'] ?></strong></div>
-    </section>
-
-    <section class="dash-grid">
-        <div class="panel">
-            <h2>Newest users</h2>
-            <table class="simple-table">
-                <thead><tr><th>User</th><th>Status</th><th>Joined</th></tr></thead>
-                <tbody>
-                <?php foreach ($recentUsers as $row): ?>
-                    <tr>
-                        <td><img class="avatar-mini" src="uploads/profiles/<?= e($row['profile_photo'] ?: 'default.png') ?>" alt=""><b><?= e(trim(($row['first_name'] ?? '') . ' ' . ($row['last_name'] ?? ''))) ?></b><br><span class="muted"><?= e($row['email']) ?></span></td>
-                        <td><?php if ((int)$row['is_banned'] === 1): ?><span class="badge red">Banned</span><?php elseif ((int)$row['is_online'] === 1): ?><span class="badge green">Online</span><?php else: ?><span class="badge">Offline</span><?php endif; ?></td>
-                        <td><span class="muted"><?= e($row['created_at'] ?? '') ?></span></td>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
+    <main class="dash">
+        <div class="dash-top">
+            <div>
+                <h1>📊 Admin Dashboard</h1>
+                <p class="muted">Quick overview of ChatZone activity.</p>
+            </div>
+            <div class="dash-actions">
+                <a class="dash-btn" href="admin_users.php">👥 Users</a>
+                <a class="dash-btn" href="reports.php">⚠️ Reports</a>
+                <a class="dash-btn" href="admin_announcements.php">📢 Announcements</a>
+                <a class="dash-btn" href="admin_backup.php">🧰 Backup</a>
+                <a class="dash-btn" href="admin_activity.php">🧾 Logs</a>
+                <a class="dash-btn" href="chat.php">← Chat</a>
+            </div>
         </div>
 
-        <div class="panel">
-            <h2>Recent private messages</h2>
-            <table class="simple-table">
-                <thead><tr><th>Sender</th><th>Message</th><th>Time</th></tr></thead>
-                <tbody>
-                <?php foreach ($recentMessages as $row): ?>
-                    <tr>
-                        <td><?= e(trim(($row['first_name'] ?? '') . ' ' . ($row['last_name'] ?? '')) ?: 'User') ?></td>
-                        <td><span class="badge blue"><?= e($row['message_type']) ?></span><div class="message-preview"><?= e($row['body'] ?: $row['file_path'] ?: '') ?></div></td>
-                        <td><span class="muted"><?= e($row['created_at'] ?? '') ?></span></td>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div>Total users</div><strong><?= (int)$stats['users'] ?></strong>
+            </div>
+            <div class="stat-card">
+                <div>Online now</div><strong><?= (int)$stats['online'] ?></strong>
+            </div>
+            <div class="stat-card">
+                <div>Private messages</div><strong><?= (int)$stats['private_messages'] ?></strong>
+            </div>
+            <div class="stat-card">
+                <div>Groups</div><strong><?= (int)$stats['groups'] ?></strong>
+            </div>
+            <div class="stat-card">
+                <div>Group messages</div><strong><?= (int)$stats['group_messages'] ?></strong>
+            </div>
+            <div class="stat-card">
+                <div>Voice messages</div><strong><?= (int)$stats['voice_messages'] ?></strong>
+            </div>
+            <div class="stat-card">
+                <div>Image messages</div><strong><?= (int)$stats['image_messages'] ?></strong>
+            </div>
+            <div class="stat-card">
+                <div>Open reports</div><strong><?= (int)$stats['open_reports'] ?></strong>
+            </div>
+        </section>
 
-        <div class="panel full">
-            <h2>Latest reports</h2>
-            <?php if (empty($recentReports)): ?>
-                <p class="muted">No reports yet.</p>
-            <?php else: ?>
+        <section class="dash-grid">
+            <div class="panel">
+                <h2>Newest users</h2>
                 <table class="simple-table">
-                    <thead><tr><th>ID</th><th>Reporter</th><th>Reason</th><th>Status</th><th>Time</th></tr></thead>
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Status</th>
+                            <th>Joined</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                    <?php foreach ($recentReports as $r): ?>
+                        <?php foreach ($recentUsers as $row): ?>
+                        <tr>
+                            <td><img class="avatar-mini"
+                                    src="uploads/profiles/<?= e($row['profile_photo'] ?: 'default.png') ?>"
+                                    alt=""><b><?= e(trim(($row['first_name'] ?? '') . ' ' . ($row['last_name'] ?? ''))) ?></b><br><span
+                                    class="muted"><?= e($row['email']) ?></span></td>
+                            <td><?php if ((int)$row['is_banned'] === 1): ?><span
+                                    class="badge red">Banned</span><?php elseif ((int)$row['is_online'] === 1): ?><span
+                                    class="badge green">Online</span><?php else: ?><span
+                                    class="badge">Offline</span><?php endif; ?></td>
+                            <td><span class="muted"><?= e($row['created_at'] ?? '') ?></span></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel">
+                <h2>Recent private messages</h2>
+                <table class="simple-table">
+                    <thead>
+                        <tr>
+                            <th>Sender</th>
+                            <th>Message</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($recentMessages as $row): ?>
+                        <tr>
+                            <td><?= e(trim(($row['first_name'] ?? '') . ' ' . ($row['last_name'] ?? '')) ?: 'User') ?>
+                            </td>
+                            <td><span class="badge blue"><?= e($row['message_type']) ?></span>
+                                <div class="message-preview"><?= e($row['body'] ?: $row['file_path'] ?: '') ?></div>
+                            </td>
+                            <td><span class="muted"><?= e($row['created_at'] ?? '') ?></span></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel full">
+                <h2>Latest reports</h2>
+                <?php if (empty($recentReports)): ?>
+                <p class="muted">No reports yet.</p>
+                <?php else: ?>
+                <table class="simple-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Reporter</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($recentReports as $r): ?>
                         <tr>
                             <td>#<?= (int)$r['id'] ?></td>
                             <td><?= e(trim(($r['first_name'] ?? '') . ' ' . ($r['last_name'] ?? '')) ?: 'User') ?></td>
                             <td><?= e(mb_strimwidth((string)$r['reason'], 0, 100, '...')) ?></td>
-                            <td><span class="badge <?= $r['status'] === 'open' ? 'red' : 'green' ?>"><?= e($r['status']) ?></span></td>
+                            <td><span
+                                    class="badge <?= $r['status'] === 'open' ? 'red' : 'green' ?>"><?= e($r['status']) ?></span>
+                            </td>
                             <td><span class="muted"><?= e($r['created_at']) ?></span></td>
                         </tr>
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
-            <?php endif; ?>
-        </div>
-    </section>
-</main>
+                <?php endif; ?>
+            </div>
+        </section>
+    </main>
 </body>
+
 </html>

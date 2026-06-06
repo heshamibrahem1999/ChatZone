@@ -46,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!doctype html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -54,39 +55,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="assets/js/extracted/public__group_create-1.js"></script>
     <link rel="stylesheet" href="assets/css/extracted/public__group_create.css">
 </head>
-<body class="group-create-page">
-<script src="assets/js/extracted/public__group_create-2.js"></script>
-<div class="group-create-wrap">
-    <div class="group-create-card">
-        <h2>👥 Create Group</h2>
-        <?php if ($error): ?><div class="error-box"><?= e($error) ?></div><?php endif; ?>
-        <form method="post">
-            <label>Group name</label>
-            <input type="text" name="name" required placeholder="My group">
 
-            <h3>Add friends</h3>
-            <?php if (!$allUsers): ?>
+<body class="group-create-page">
+    <script src="assets/js/extracted/public__group_create-2.js"></script>
+    <div class="group-create-wrap">
+        <div class="group-create-card">
+            <h2>👥 Create Group</h2>
+            <?php if ($error): ?><div class="error-box"><?= e($error) ?></div><?php endif; ?>
+            <form method="post">
+                <label>Group name</label>
+                <input type="text" name="name" required placeholder="My group">
+
+                <h3>Add friends</h3>
+                <?php if (!$allUsers): ?>
                 <div class="empty-friends">No friends found yet. Add friends first, then create a group.</div>
-            <?php else: ?>
+                <?php else: ?>
                 <div class="members-box">
                     <?php foreach ($allUsers as $u): ?>
-                        <label class="member-row">
-                            <input type="checkbox" name="members[]" value="<?= (int)$u['id'] ?>">
-                            <span>
-                                <span class="member-name"><?= e(trim($u['first_name'].' '.$u['last_name'])) ?></span><br>
-                                <span class="member-email"><?= e($u['email']) ?></span>
-                            </span>
-                        </label>
+                    <label class="member-row">
+                        <input type="checkbox" name="members[]" value="<?= (int)$u['id'] ?>">
+                        <span>
+                            <span class="member-name"><?= e(trim($u['first_name'].' '.$u['last_name'])) ?></span><br>
+                            <span class="member-email"><?= e($u['email']) ?></span>
+                        </span>
+                    </label>
                     <?php endforeach; ?>
                 </div>
-            <?php endif; ?>
+                <?php endif; ?>
 
-            <div class="form-actions">
-                <button type="submit">Create Group</button>
-                <a href="chat.php">Back</a>
-            </div>
-        </form>
+                <div class="form-actions">
+                    <button type="submit">Create Group</button>
+                    <a href="chat.php">Back</a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 </body>
+
 </html>

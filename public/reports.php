@@ -77,66 +77,77 @@ $reports = $stmt->fetchAll();
 ?>
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Reports - ChatZone</title>
     <link rel="stylesheet" href="assets/css/chat.css?v=20260530-cachefix-1">
 </head>
+
 <body>
-<main class="reports-page-main">
-    <div class="reports-header">
-        <div>
-            <h1>⚠️ Reports</h1>
-            <p>Review reported users and messages.</p>
+    <main class="reports-page-main">
+        <div class="reports-header">
+            <div>
+                <h1>⚠️ Reports</h1>
+                <p>Review reported users and messages.</p>
+            </div>
+            <a class="back-link" href="chat.php">← Back to chat</a>
         </div>
-        <a class="back-link" href="chat.php">← Back to chat</a>
-    </div>
 
-    <div class="report-tabs">
-        <?php foreach (['open' => 'Open', 'reviewed' => 'Reviewed', 'closed' => 'Closed', 'all' => 'All'] as $key => $label): ?>
-            <a class="media-tab <?= $statusFilter === $key ? 'active' : '' ?>" href="reports.php?status=<?= e($key) ?>"><?= e($label) ?></a>
-        <?php endforeach; ?>
-    </div>
-
-    <?php if (empty($reports)): ?>
-        <div class="media-empty"><div class="media-empty-icon">✅</div><h2>No reports found</h2></div>
-    <?php else: ?>
-        <div class="reports-list">
-            <?php foreach ($reports as $report): ?>
-                <article class="report-card">
-                    <div class="report-card-top">
-                        <strong>#<?= (int)$report['id'] ?> · <?= e(ucfirst($report['status'])) ?></strong>
-                        <span><?= e($report['created_at']) ?></span>
-                    </div>
-                    <div class="report-grid">
-                        <div><b>Reporter:</b><br><?= e(trim(($report['reporter_name'] ?? '') ?: 'User')) ?><br><small><?= e($report['reporter_email'] ?? '') ?></small></div>
-                        <div><b>Reported:</b><br><?= e(trim(($report['reported_name'] ?? '') ?: 'Unknown')) ?><br><small><?= e($report['reported_email'] ?? '') ?></small></div>
-                    </div>
-                    <div class="report-reason"><b>Reason:</b><br><?= nl2br(e($report['reason'])) ?></div>
-                    <?php if (!empty($report['message_id'])): ?>
-                        <div class="reported-message">
-                            <b>Message 
-                            <?php if ($report['message_type'] === 'image' && $report['file_path']): ?>
-                                <br><a href="<?= e($report['file_path']) ?>" target="_blank">Open image</a>
-                            <?php elseif ($report['message_type'] === 'voice' && $report['file_path']): ?>
-                                <br><audio controls preload="metadata" src="<?= e($report['file_path']) ?>"></audio>
-                            <?php else: ?>
-                                <br><?= nl2br(e($report['message_body'] ?? '')) ?>
-                            <?php endif; ?>
-                        </div>
-                    <?php endif; ?>
-                    <form method="post" class="report-actions">
-                        <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
-                        <input type="hidden" name="report_id" value="<?= (int)$report['id'] ?>">
-                        <button name="status" value="open">Open</button>
-                        <button name="status" value="reviewed">Reviewed</button>
-                        <button name="status" value="closed">Close</button>
-                    </form>
-                </article>
+        <div class="report-tabs">
+            <?php foreach (['open' => 'Open', 'reviewed' => 'Reviewed', 'closed' => 'Closed', 'all' => 'All'] as $key => $label): ?>
+            <a class="media-tab <?= $statusFilter === $key ? 'active' : '' ?>"
+                href="reports.php?status=<?= e($key) ?>"><?= e($label) ?></a>
             <?php endforeach; ?>
         </div>
-    <?php endif; ?>
-</main>
+
+        <?php if (empty($reports)): ?>
+        <div class="media-empty">
+            <div class="media-empty-icon">✅</div>
+            <h2>No reports found</h2>
+        </div>
+        <?php else: ?>
+        <div class="reports-list">
+            <?php foreach ($reports as $report): ?>
+            <article class="report-card">
+                <div class="report-card-top">
+                    <strong>#<?= (int)$report['id'] ?> · <?= e(ucfirst($report['status'])) ?></strong>
+                    <span><?= e($report['created_at']) ?></span>
+                </div>
+                <div class="report-grid">
+                    <div>
+                        <b>Reporter:</b><br><?= e(trim(($report['reporter_name'] ?? '') ?: 'User')) ?><br><small><?= e($report['reporter_email'] ?? '') ?></small>
+                    </div>
+                    <div>
+                        <b>Reported:</b><br><?= e(trim(($report['reported_name'] ?? '') ?: 'Unknown')) ?><br><small><?= e($report['reported_email'] ?? '') ?></small>
+                    </div>
+                </div>
+                <div class="report-reason"><b>Reason:</b><br><?= nl2br(e($report['reason'])) ?></div>
+                <?php if (!empty($report['message_id'])): ?>
+                <div class="reported-message">
+                    <b>Message
+                        <?php if ($report['message_type'] === 'image' && $report['file_path']): ?>
+                        <br><a href="<?= e($report['file_path']) ?>" target="_blank">Open image</a>
+                        <?php elseif ($report['message_type'] === 'voice' && $report['file_path']): ?>
+                        <br><audio controls preload="metadata" src="<?= e($report['file_path']) ?>"></audio>
+                        <?php else: ?>
+                        <br><?= nl2br(e($report['message_body'] ?? '')) ?>
+                        <?php endif; ?>
+                </div>
+                <?php endif; ?>
+                <form method="post" class="report-actions">
+                    <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+                    <input type="hidden" name="report_id" value="<?= (int)$report['id'] ?>">
+                    <button name="status" value="open">Open</button>
+                    <button name="status" value="reviewed">Reviewed</button>
+                    <button name="status" value="closed">Close</button>
+                </form>
+            </article>
+            <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
+    </main>
 </body>
+
 </html>

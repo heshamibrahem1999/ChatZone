@@ -86,7 +86,8 @@ require_once __DIR__ . '/partials/chat/head.php';
                 <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
                 <div>
                     <div class="header-name">🖼️ Media Gallery</div>
-                    <div class="header-status"><?= count($mediaItems) ?> item<?= count($mediaItems) === 1 ? '' : 's' ?></div>
+                    <div class="header-status"><?= count($mediaItems) ?> item<?= count($mediaItems) === 1 ? '' : 's' ?>
+                    </div>
                 </div>
             </div>
         </header>
@@ -94,21 +95,24 @@ require_once __DIR__ . '/partials/chat/head.php';
         <section class="media-gallery-page">
             <div class="media-tabs">
                 <a class="media-tab <?= $type === 'all' ? 'active' : '' ?>" href="media_gallery.php?type=all">All</a>
-                <a class="media-tab <?= $type === 'image' ? 'active' : '' ?>" href="media_gallery.php?type=image">Images</a>
-                <a class="media-tab <?= $type === 'voice' ? 'active' : '' ?>" href="media_gallery.php?type=voice">Voice</a>
-                <a class="media-tab <?= $type === 'file' ? 'active' : '' ?>" href="media_gallery.php?type=file">Files</a>
+                <a class="media-tab <?= $type === 'image' ? 'active' : '' ?>"
+                    href="media_gallery.php?type=image">Images</a>
+                <a class="media-tab <?= $type === 'voice' ? 'active' : '' ?>"
+                    href="media_gallery.php?type=voice">Voice</a>
+                <a class="media-tab <?= $type === 'file' ? 'active' : '' ?>"
+                    href="media_gallery.php?type=file">Files</a>
             </div>
 
             <?php if (empty($mediaItems)): ?>
-                <div class="media-empty">
-                    <div class="media-empty-icon">🖼️</div>
-                    <h2>No media yet</h2>
-                    <p>Images, voice messages, and files you send or receive will appear here.</p>
-                </div>
+            <div class="media-empty">
+                <div class="media-empty-icon">🖼️</div>
+                <h2>No media yet</h2>
+                <p>Images, voice messages, and files you send or receive will appear here.</p>
+            </div>
             <?php else: ?>
-                <div class="media-grid">
-                    <?php foreach ($mediaItems as $item): ?>
-                        <?php
+            <div class="media-grid">
+                <?php foreach ($mediaItems as $item): ?>
+                <?php
                             $friendName = trim($item['first_name'] . ' ' . $item['last_name']);
                             $senderLabel = ((int)$item['sender_id'] === $userId) ? 'You' : $friendName;
                             $path = (string)$item['file_path'];
@@ -117,26 +121,29 @@ require_once __DIR__ . '/partials/chat/head.php';
                                 $caption = mb_substr($caption, 0, 90) . '…';
                             }
                         ?>
-                        <article class="media-card">
-                            <a class="media-preview" href="<?= e($path) ?>" target="_blank" rel="noopener">
-                                <?php if ($item['message_type'] === 'image'): ?>
-                                    <img src="<?= e($path) ?>" alt="Image">
-                                <?php elseif ($item['message_type'] === 'voice'): ?>
-                                    <div class="media-voice-icon">🎙️</div>
-                                    <audio controls preload="metadata" src="<?= e($path) ?>"></audio>
-                                <?php else: ?>
-                                    <div class="media-file-icon">📎</div>
-                                <?php endif; ?>
-                            </a>
-                            <div class="media-info">
-                                <div class="media-title"><?= e($caption) ?></div>
-                                <div class="media-meta"><?= e(media_label($item)) ?> · <?= e($senderLabel) ?> · <?= e($friendName) ?></div>
-                                <div class="media-date"><?= e($item['created_at']) ?></div>
-                                <a class="media-open-chat" href="chat.php?friendship=<?= (int)$item['friendship_id'] ?>#message-<?= (int)$item['message_id'] ?>">Open in chat</a>
-                            </div>
-                        </article>
-                    <?php endforeach; ?>
-                </div>
+                <article class="media-card">
+                    <a class="media-preview" href="<?= e($path) ?>" target="_blank" rel="noopener">
+                        <?php if ($item['message_type'] === 'image'): ?>
+                        <img src="<?= e($path) ?>" alt="Image">
+                        <?php elseif ($item['message_type'] === 'voice'): ?>
+                        <div class="media-voice-icon">🎙️</div>
+                        <audio controls preload="metadata" src="<?= e($path) ?>"></audio>
+                        <?php else: ?>
+                        <div class="media-file-icon">📎</div>
+                        <?php endif; ?>
+                    </a>
+                    <div class="media-info">
+                        <div class="media-title"><?= e($caption) ?></div>
+                        <div class="media-meta"><?= e(media_label($item)) ?> · <?= e($senderLabel) ?> ·
+                            <?= e($friendName) ?></div>
+                        <div class="media-date"><?= e($item['created_at']) ?></div>
+                        <a class="media-open-chat"
+                            href="chat.php?friendship=<?= (int)$item['friendship_id'] ?>#message-<?= (int)$item['message_id'] ?>">Open
+                            in chat</a>
+                    </div>
+                </article>
+                <?php endforeach; ?>
+            </div>
             <?php endif; ?>
         </section>
     </main>

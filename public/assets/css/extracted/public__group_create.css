@@ -1,107 +1,159 @@
 body.group-create-page {
-            min-height: 100vh;
-            margin: 0;
-            background: #f4f6f8;
-            color: #111827;
-            font-family: Arial, sans-serif;
-            overflow-y: auto;
-        }
-        html.dark-mode body.group-create-page,
-        body.group-create-page.dark-mode {
-            background: #0b141a;
-            color: #e9edef;
-        }
-        .group-create-wrap {
-            max-width: 780px;
-            margin: 34px auto;
-            padding: 0 16px 60px;
-        }
-        .group-create-card {
-            background: #ffffff;
-            color: #111827;
-            border: 1px solid #d1d5db;
-            border-radius: 18px;
-            padding: 22px;
-            box-shadow: 0 14px 40px rgba(0,0,0,.08);
-        }
-        html.dark-mode .group-create-card,
-        body.dark-mode .group-create-card {
-            background: #111b21;
-            color: #e9edef;
-            border-color: #26343d;
-            box-shadow: 0 14px 40px rgba(0,0,0,.28);
-        }
-        .group-create-card h2 { margin-top: 0; color: #00a884; }
-        .group-create-card label { font-weight: 700; display: block; margin: 12px 0 7px; }
-        .group-create-card input[type="text"] {
-            width: 100%;
-            padding: 12px 14px;
-            border-radius: 12px;
-            border: 1px solid #cbd5e1;
-            background: #fff;
-            color: #111827;
-        }
-        html.dark-mode .group-create-card input[type="text"],
-        body.dark-mode .group-create-card input[type="text"] {
-            background: #1f2c33;
-            color: #e9edef;
-            border-color: #33444d;
-        }
-        .members-box {
-            display: grid;
-            gap: 8px;
-            max-height: 340px;
-            overflow: auto;
-            border: 1px solid #d1d5db;
-            padding: 12px;
-            border-radius: 14px;
-            background: #f8fafc;
-        }
-        html.dark-mode .members-box,
-        body.dark-mode .members-box {
-            background: #0f1a20;
-            border-color: #33444d;
-        }
-        .member-row {
-            display: flex !important;
-            gap: 10px;
-            align-items: center;
-            padding: 10px;
-            border-radius: 12px;
-            margin: 0 !important;
-            font-weight: 500 !important;
-            color: inherit;
-        }
-        .member-row:hover { background: rgba(0,168,132,.12); }
-        .member-name { font-weight: 700; }
-        .member-email { opacity: .7; font-size: 13px; }
-        .empty-friends {
-            padding: 18px;
-            border-radius: 14px;
-            background: rgba(0,168,132,.1);
-            color: inherit;
-        }
-        .form-actions { margin-top:16px; display:flex; gap:10px; align-items:center; }
-        .form-actions button,
-        .form-actions a {
-            border: 0;
-            border-radius: 12px;
-            padding: 11px 14px;
-            text-decoration: none;
-            cursor: pointer;
-            font-weight: 700;
-        }
-        .form-actions button { background: #00a884; color: #fff; }
-        .form-actions a { background: #33444d; color: #fff; }
-        .error-box {
-            background: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #fca5a5;
-            padding: 12px;
-            border-radius: 12px;
-            margin: 12px 0;
-        }
-        @media (max-width: 700px) {
-            .group-create-wrap { margin: 16px auto; }
-            .group-create-card { padding: 16px; border-radius: 16px; }
-        }
+    min-height: 100vh;
+    margin: 0;
+    background: #f4f6f8;
+    color: #111827;
+    font-family: Arial, sans-serif;
+    overflow-y: auto;
+}
+
+html.dark-mode body.group-create-page,
+body.group-create-page.dark-mode {
+    background: #0b141a;
+    color: #e9edef;
+}
+
+.group-create-wrap {
+    max-width: 780px;
+    margin: 34px auto;
+    padding: 0 16px 60px;
+}
+
+.group-create-card {
+    background: #ffffff;
+    color: #111827;
+    border: 1px solid #d1d5db;
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, .08);
+}
+
+html.dark-mode .group-create-card,
+body.dark-mode .group-create-card {
+    background: #111b21;
+    color: #e9edef;
+    border-color: #26343d;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, .28);
+}
+
+.group-create-card h2 {
+    margin-top: 0;
+    color: #00a884;
+}
+
+.group-create-card label {
+    font-weight: 700;
+    display: block;
+    margin: 12px 0 7px;
+}
+
+.group-create-card input[type="text"] {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    color: #111827;
+}
+
+html.dark-mode .group-create-card input[type="text"],
+body.dark-mode .group-create-card input[type="text"] {
+    background: #1f2c33;
+    color: #e9edef;
+    border-color: #33444d;
+}
+
+.members-box {
+    display: grid;
+    gap: 8px;
+    max-height: 340px;
+    overflow: auto;
+    border: 1px solid #d1d5db;
+    padding: 12px;
+    border-radius: 14px;
+    background: #f8fafc;
+}
+
+html.dark-mode .members-box,
+body.dark-mode .members-box {
+    background: #0f1a20;
+    border-color: #33444d;
+}
+
+.member-row {
+    display: flex !important;
+    gap: 10px;
+    align-items: center;
+    padding: 10px;
+    border-radius: 12px;
+    margin: 0 !important;
+    font-weight: 500 !important;
+    color: inherit;
+}
+
+.member-row:hover {
+    background: rgba(0, 168, 132, .12);
+}
+
+.member-name {
+    font-weight: 700;
+}
+
+.member-email {
+    opacity: .7;
+    font-size: 13px;
+}
+
+.empty-friends {
+    padding: 18px;
+    border-radius: 14px;
+    background: rgba(0, 168, 132, .1);
+    color: inherit;
+}
+
+.form-actions {
+    margin-top: 16px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.form-actions button,
+.form-actions a {
+    border: 0;
+    border-radius: 12px;
+    padding: 11px 14px;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.form-actions button {
+    background: #00a884;
+    color: #fff;
+}
+
+.form-actions a {
+    background: #33444d;
+    color: #fff;
+}
+
+.error-box {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+    padding: 12px;
+    border-radius: 12px;
+    margin: 12px 0;
+}
+
+@media (max-width: 700px) {
+    .group-create-wrap {
+        margin: 16px auto;
+    }
+
+    .group-create-card {
+        padding: 16px;
+        border-radius: 16px;
+    }
+}

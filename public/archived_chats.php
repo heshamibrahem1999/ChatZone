@@ -49,6 +49,7 @@ $archived = $stmt->fetchAll();
 ?>
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -56,36 +57,38 @@ $archived = $stmt->fetchAll();
     <link rel="stylesheet" href="assets/css/chat.css?v=20260530-cachefix-1">
     <link rel="stylesheet" href="assets/css/extracted/public__archived_chats.css">
 </head>
-<body>
-<div class="page-wrap">
-    <div class="page-card">
-        <div class="topbar">
-            <h2>📦 Archived Chats</h2>
-            <a class="btn" href="chat.php">← Back to Chat</a>
-        </div>
 
-        <?php if (empty($archived)): ?>
+<body>
+    <div class="page-wrap">
+        <div class="page-card">
+            <div class="topbar">
+                <h2>📦 Archived Chats</h2>
+                <a class="btn" href="chat.php">← Back to Chat</a>
+            </div>
+
+            <?php if (empty($archived)): ?>
             <div class="empty">No archived chats yet.</div>
-        <?php else: ?>
+            <?php else: ?>
             <?php foreach ($archived as $chat): ?>
-                <div class="archive-row">
-                    <img src="uploads/profiles/<?= e($chat['profile_photo'] ?: 'default.png') ?>" alt="Friend">
-                    <div class="meta">
-                        <div class="name"><?= e(trim($chat['first_name'] . ' ' . $chat['last_name'])) ?></div>
-                        <div class="last"><?= e($chat['last_message'] ?: 'No messages yet') ?></div>
-                    </div>
-                    <div class="actions">
-                        <form method="post" action="archive_chat.php">
-                            <input type="hidden" name="friendship_id" value="<?= (int)$chat['friendship_id'] ?>">
-                            <input type="hidden" name="action" value="restore">
-                            <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
-                            <button class="btn primary" type="submit">Restore</button>
-                        </form>
-                    </div>
+            <div class="archive-row">
+                <img src="uploads/profiles/<?= e($chat['profile_photo'] ?: 'default.png') ?>" alt="Friend">
+                <div class="meta">
+                    <div class="name"><?= e(trim($chat['first_name'] . ' ' . $chat['last_name'])) ?></div>
+                    <div class="last"><?= e($chat['last_message'] ?: 'No messages yet') ?></div>
                 </div>
+                <div class="actions">
+                    <form method="post" action="archive_chat.php">
+                        <input type="hidden" name="friendship_id" value="<?= (int)$chat['friendship_id'] ?>">
+                        <input type="hidden" name="action" value="restore">
+                        <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+                        <button class="btn primary" type="submit">Restore</button>
+                    </form>
+                </div>
+            </div>
             <?php endforeach; ?>
-        <?php endif; ?>
+            <?php endif; ?>
+        </div>
     </div>
-</div>
 </body>
+
 </html>

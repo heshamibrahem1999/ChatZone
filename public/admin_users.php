@@ -113,6 +113,7 @@ $users = $stmt->fetchAll();
 ?>
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -120,129 +121,140 @@ $users = $stmt->fetchAll();
     <link rel="stylesheet" href="assets/css/chat.css?v=20260530-cachefix-1">
     <link rel="stylesheet" href="assets/css/extracted/public__admin_users.css">
 </head>
+
 <body>
-<main class="admin-users-page">
-    <div class="admin-top">
-        <div>
-            <h1>👥 User Management</h1>
-            <p>Manage admins and banned users.</p>
+    <main class="admin-users-page">
+        <div class="admin-top">
+            <div>
+                <h1>👥 User Management</h1>
+                <p>Manage admins and banned users.</p>
+            </div>
+            <div>
+                <a class="admin-btn" href="reports.php">⚠️ Reports</a>
+                <a class="admin-btn" href="chat.php">← Back to chat</a>
+            </div>
         </div>
-        <div>
-            <a class="admin-btn" href="reports.php">⚠️ Reports</a>
-            <a class="admin-btn" href="chat.php">← Back to chat</a>
-        </div>
-    </div>
 
-    <?php if ($notice): ?><div class="notice"><?= e($notice) ?></div><?php endif; ?>
+        <?php if ($notice): ?><div class="notice"><?= e($notice) ?></div><?php endif; ?>
 
-    <form class="admin-search" method="get">
-        <input type="text" name="q" value="<?= e($q) ?>" placeholder="Search users by name or email">
-        <button type="submit">Search</button>
-        <a class="admin-btn" href="admin_users.php">Reset</a>
-    </form>
+        <form class="admin-search" method="get">
+            <input type="text" name="q" value="<?= e($q) ?>" placeholder="Search users by name or email">
+            <button type="submit">Search</button>
+            <a class="admin-btn" href="admin_users.php">Reset</a>
+        </form>
 
-    <div class="admin-card">
-        <table class="users-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>User</th>
-                    <th class="hide-sm">Status</th>
-                    <th class="hide-sm">Last active</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($users as $row): ?>
+        <div class="admin-card">
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User</th>
+                        <th class="hide-sm">Status</th>
+                        <th class="hide-sm">Last active</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($users as $row): ?>
                     <tr>
                         <td>#<?= (int)$row['id'] ?></td>
                         <td>
-                            <img class="avatar-mini" src="uploads/profiles/<?= e($row['profile_photo'] ?: 'default.png') ?>" alt="">
+                            <img class="avatar-mini"
+                                src="uploads/profiles/<?= e($row['profile_photo'] ?: 'default.png') ?>" alt="">
                             <b><?= e(trim(($row['first_name'] ?? '') . ' ' . ($row['last_name'] ?? ''))) ?></b><br>
                             <small><?= e($row['email']) ?></small><br>
-                            <?php if ((int)$row['is_admin'] === 1): ?><span class="badge blue">Admin</span><?php endif; ?>
+                            <?php if ((int)$row['is_admin'] === 1): ?><span
+                                class="badge blue">Admin</span><?php endif; ?>
                             <?php if (empty($row['email_verified_at']) && !empty($row['verification_token'])): ?>
-                                <form class="action-form" method="post">
-                                    <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
-                                    <input type="hidden" name="user_id" value="<?= (int)$row['id'] ?>">
-                                    <button name="action" value="verify_email">Verify Email</button>
-                                </form>
+                            <form class="action-form" method="post">
+                                <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+                                <input type="hidden" name="user_id" value="<?= (int)$row['id'] ?>">
+                                <button name="action" value="verify_email">Verify Email</button>
+                            </form>
                             <?php endif; ?>
 
-                            <?php if ((int)$row['is_banned'] === 1): ?><span class="badge red">Banned</span><?php endif; ?>
-                            <?php if (!empty($row['login_locked_until']) && strtotime($row['login_locked_until']) > time()): ?><span class="badge red">Locked until <?= e($row['login_locked_until']) ?></span><?php endif; ?>
-                            <?php if (!empty($row['email_verified_at'])): ?><span class="badge green">Verified</span><?php elseif (!empty($row['verification_token'])): ?><span class="badge red">Unverified</span><?php endif; ?>
+                            <?php if ((int)$row['is_banned'] === 1): ?><span
+                                class="badge red">Banned</span><?php endif; ?>
+                            <?php if (!empty($row['login_locked_until']) && strtotime($row['login_locked_until']) > time()): ?><span
+                                class="badge red">Locked until
+                                <?= e($row['login_locked_until']) ?></span><?php endif; ?>
+                            <?php if (!empty($row['email_verified_at'])): ?><span
+                                class="badge green">Verified</span><?php elseif (!empty($row['verification_token'])): ?><span
+                                class="badge red">Unverified</span><?php endif; ?>
                         </td>
                         <td class="hide-sm">
                             <?php if ((int)$row['is_online'] === 1): ?>
-                                <span class="badge green">Online</span>
+                            <span class="badge green">Online</span>
                             <?php else: ?>
-                                <span class="badge">Offline</span>
+                            <span class="badge">Offline</span>
                             <?php endif; ?>
                         </td>
                         <td class="hide-sm"><small><?= e($row['last_active_at'] ?? '—') ?></small></td>
                         <td>
                             <?php if ((int)$row['is_admin'] === 1): ?>
-                                <form class="action-form" method="post">
-                                    <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
-                                    <input type="hidden" name="user_id" value="<?= (int)$row['id'] ?>">
-                                    <button name="action" value="remove_admin">Remove Admin</button>
-                                </form>
+                            <form class="action-form" method="post">
+                                <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+                                <input type="hidden" name="user_id" value="<?= (int)$row['id'] ?>">
+                                <button name="action" value="remove_admin">Remove Admin</button>
+                            </form>
                             <?php else: ?>
-                                <form class="action-form" method="post">
-                                    <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
-                                    <input type="hidden" name="user_id" value="<?= (int)$row['id'] ?>">
-                                    <button name="action" value="make_admin">Make Admin</button>
-                                </form>
+                            <form class="action-form" method="post">
+                                <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+                                <input type="hidden" name="user_id" value="<?= (int)$row['id'] ?>">
+                                <button name="action" value="make_admin">Make Admin</button>
+                            </form>
                             <?php endif; ?>
 
                             <?php if (empty($row['email_verified_at']) && !empty($row['verification_token'])): ?>
-                                <form class="action-form" method="post">
-                                    <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
-                                    <input type="hidden" name="user_id" value="<?= (int)$row['id'] ?>">
-                                    <button name="action" value="verify_email">Verify Email</button>
-                                </form>
+                            <form class="action-form" method="post">
+                                <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+                                <input type="hidden" name="user_id" value="<?= (int)$row['id'] ?>">
+                                <button name="action" value="verify_email">Verify Email</button>
+                            </form>
                             <?php endif; ?>
 
-                            
+
                             <?php if (!empty($row['login_locked_until']) && strtotime($row['login_locked_until']) > time()): ?>
-                                <form class="action-form" method="post">
-                                    <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
-                                    <input type="hidden" name="user_id" value="<?= (int)$row['id'] ?>">
-                                    <button name="action" value="unlock_login">Unlock Login</button>
-                                </form>
+                            <form class="action-form" method="post">
+                                <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+                                <input type="hidden" name="user_id" value="<?= (int)$row['id'] ?>">
+                                <button name="action" value="unlock_login">Unlock Login</button>
+                            </form>
                             <?php else: ?>
-                                <form class="action-form" method="post" onsubmit="return confirm('Lock this user login for 1 hour?');">
-                                    <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
-                                    <input type="hidden" name="user_id" value="<?= (int)$row['id'] ?>">
-                                    <button name="action" value="lock_1h">Lock 1h</button>
-                                </form>
-                                <form class="action-form" method="post" onsubmit="return confirm('Lock this user login for 24 hours?');">
-                                    <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
-                                    <input type="hidden" name="user_id" value="<?= (int)$row['id'] ?>">
-                                    <button name="action" value="lock_24h">Lock 24h</button>
-                                </form>
+                            <form class="action-form" method="post"
+                                onsubmit="return confirm('Lock this user login for 1 hour?');">
+                                <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+                                <input type="hidden" name="user_id" value="<?= (int)$row['id'] ?>">
+                                <button name="action" value="lock_1h">Lock 1h</button>
+                            </form>
+                            <form class="action-form" method="post"
+                                onsubmit="return confirm('Lock this user login for 24 hours?');">
+                                <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+                                <input type="hidden" name="user_id" value="<?= (int)$row['id'] ?>">
+                                <button name="action" value="lock_24h">Lock 24h</button>
+                            </form>
                             <?php endif; ?>
 
                             <?php if ((int)$row['is_banned'] === 1): ?>
-                                <form class="action-form" method="post">
-                                    <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
-                                    <input type="hidden" name="user_id" value="<?= (int)$row['id'] ?>">
-                                    <button name="action" value="unban">Unban</button>
-                                </form>
+                            <form class="action-form" method="post">
+                                <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+                                <input type="hidden" name="user_id" value="<?= (int)$row['id'] ?>">
+                                <button name="action" value="unban">Unban</button>
+                            </form>
                             <?php else: ?>
-                                <form class="action-form" method="post" onsubmit="return confirm('Ban this user?');">
-                                    <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
-                                    <input type="hidden" name="user_id" value="<?= (int)$row['id'] ?>">
-                                    <button class="danger" name="action" value="ban">Ban</button>
-                                </form>
+                            <form class="action-form" method="post" onsubmit="return confirm('Ban this user?');">
+                                <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+                                <input type="hidden" name="user_id" value="<?= (int)$row['id'] ?>">
+                                <button class="danger" name="action" value="ban">Ban</button>
+                            </form>
                             <?php endif; ?>
                         </td>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-</main>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </main>
 </body>
+
 </html>

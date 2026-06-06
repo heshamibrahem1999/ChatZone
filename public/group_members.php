@@ -119,48 +119,51 @@ $available = $usersStmt->fetchAll();
 ?>
 <!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Group Members</title>
-<link rel="stylesheet" href="assets/css/chat.css?v=20260601-groupmembers-1">
-<link rel="stylesheet" href="assets/css/extracted/public__group_members.css">
-<script src="assets/js/extracted/public__group_members-1.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Group Members</title>
+    <link rel="stylesheet" href="assets/css/chat.css?v=20260601-groupmembers-1">
+    <link rel="stylesheet" href="assets/css/extracted/public__group_members.css">
+    <script src="assets/js/extracted/public__group_members-1.js"></script>
 </head>
+
 <body class="group-members-page">
-<div class="gm-shell">
-    <div class="gm-header">
-        <div class="gm-title">
-            <div class="gm-avatar">👥</div>
-            <div>
-                <h1><?= e($group['name']) ?> Members</h1>
-                <div class="gm-sub"><?= count($members) ?> member(s) · <?= $isAdmin ? 'You are admin' : 'Member view' ?></div>
+    <div class="gm-shell">
+        <div class="gm-header">
+            <div class="gm-title">
+                <div class="gm-avatar">👥</div>
+                <div>
+                    <h1><?= e($group['name']) ?> Members</h1>
+                    <div class="gm-sub"><?= count($members) ?> member(s) ·
+                        <?= $isAdmin ? 'You are admin' : 'Member view' ?></div>
+                </div>
+            </div>
+            <div class="gm-top-actions">
+                <a class="gm-link" href="group.php?id=<?= $groupId ?>">← Back to group</a>
+                <a class="gm-link" href="chat.php">Chat</a>
             </div>
         </div>
-        <div class="gm-top-actions">
-            <a class="gm-link" href="group.php?id=<?= $groupId ?>">← Back to group</a>
-            <a class="gm-link" href="chat.php">Chat</a>
+
+        <?php if ($error): ?><div class="gm-alert error"><?= e($error) ?></div><?php endif; ?>
+        <?php if ($success): ?><div class="gm-alert success"><?= e($success) ?></div><?php endif; ?>
+
+        <?php if ($isAdmin): ?>
+        <div class="gm-card">
+            <h3>Rename group</h3>
+            <form method="post" class="gm-grid">
+                <input type="hidden" name="group_id" value="<?= $groupId ?>">
+                <input type="hidden" name="action" value="rename">
+                <input class="gm-input" type="text" name="name" value="<?= e($group['name']) ?>" required>
+                <button class="gm-btn" type="submit">Save</button>
+            </form>
         </div>
-    </div>
+        <?php endif; ?>
 
-    <?php if ($error): ?><div class="gm-alert error"><?= e($error) ?></div><?php endif; ?>
-    <?php if ($success): ?><div class="gm-alert success"><?= e($success) ?></div><?php endif; ?>
-
-    <?php if ($isAdmin): ?>
-    <div class="gm-card">
-        <h3>Rename group</h3>
-        <form method="post" class="gm-grid">
-            <input type="hidden" name="group_id" value="<?= $groupId ?>">
-            <input type="hidden" name="action" value="rename">
-            <input class="gm-input" type="text" name="name" value="<?= e($group['name']) ?>" required>
-            <button class="gm-btn" type="submit">Save</button>
-        </form>
-    </div>
-    <?php endif; ?>
-
-    <div class="gm-card">
-        <h3>Members</h3>
-        <?php foreach ($members as $m): ?>
+        <div class="gm-card">
+            <h3>Members</h3>
+            <?php foreach ($members as $m): ?>
             <?php $fullName = trim($m['first_name'].' '.$m['last_name']); $initial = strtoupper(substr($fullName ?: $m['email'], 0, 1)); ?>
             <div class="gm-member">
                 <div class="gm-member-info">
@@ -174,43 +177,54 @@ $available = $usersStmt->fetchAll();
                 <?php if ($isAdmin): ?>
                 <div class="gm-actions">
                     <?php if ($m['role'] !== 'admin'): ?>
-                        <form method="post"><input type="hidden" name="group_id" value="<?= $groupId ?>"><input type="hidden" name="user_id" value="<?= (int)$m['id'] ?>"><input type="hidden" name="action" value="promote"><button class="gm-btn secondary">Make admin</button></form>
+                    <form method="post"><input type="hidden" name="group_id" value="<?= $groupId ?>"><input
+                            type="hidden" name="user_id" value="<?= (int)$m['id'] ?>"><input type="hidden" name="action"
+                            value="promote"><button class="gm-btn secondary">Make admin</button></form>
                     <?php elseif ((int)$m['id'] !== $userId): ?>
-                        <form method="post"><input type="hidden" name="group_id" value="<?= $groupId ?>"><input type="hidden" name="user_id" value="<?= (int)$m['id'] ?>"><input type="hidden" name="action" value="demote"><button class="gm-btn secondary">Remove admin</button></form>
+                    <form method="post"><input type="hidden" name="group_id" value="<?= $groupId ?>"><input
+                            type="hidden" name="user_id" value="<?= (int)$m['id'] ?>"><input type="hidden" name="action"
+                            value="demote"><button class="gm-btn secondary">Remove admin</button></form>
                     <?php endif; ?>
                     <?php if ((int)$m['id'] !== $userId): ?>
-                        <form method="post" onsubmit="return confirm('Remove this member from the group?');"><input type="hidden" name="group_id" value="<?= $groupId ?>"><input type="hidden" name="user_id" value="<?= (int)$m['id'] ?>"><input type="hidden" name="action" value="remove"><button class="gm-btn danger">Remove</button></form>
+                    <form method="post" onsubmit="return confirm('Remove this member from the group?');"><input
+                            type="hidden" name="group_id" value="<?= $groupId ?>"><input type="hidden" name="user_id"
+                            value="<?= (int)$m['id'] ?>"><input type="hidden" name="action" value="remove"><button
+                            class="gm-btn danger">Remove</button></form>
                     <?php endif; ?>
                 </div>
                 <?php endif; ?>
             </div>
-        <?php endforeach; ?>
-    </div>
+            <?php endforeach; ?>
+        </div>
 
-    <?php if ($isAdmin): ?>
-    <div class="gm-card">
-        <h3>Add member</h3>
-        <?php if ($available): ?>
-        <form method="post" class="gm-grid">
-            <input type="hidden" name="group_id" value="<?= $groupId ?>"><input type="hidden" name="action" value="add">
-            <select class="gm-select" name="user_id" required>
-                <?php foreach ($available as $u): ?><option value="<?= (int)$u['id'] ?>"><?= e(trim($u['first_name'].' '.$u['last_name']).' — '.$u['email']) ?></option><?php endforeach; ?>
-            </select>
-            <button class="gm-btn" type="submit">Add</button>
-        </form>
-        <?php else: ?><p class="gm-muted">No friends available to add.</p><?php endif; ?>
-    </div>
-    <?php endif; ?>
+        <?php if ($isAdmin): ?>
+        <div class="gm-card">
+            <h3>Add member</h3>
+            <?php if ($available): ?>
+            <form method="post" class="gm-grid">
+                <input type="hidden" name="group_id" value="<?= $groupId ?>"><input type="hidden" name="action"
+                    value="add">
+                <select class="gm-select" name="user_id" required>
+                    <?php foreach ($available as $u): ?><option value="<?= (int)$u['id'] ?>">
+                        <?= e(trim($u['first_name'].' '.$u['last_name']).' — '.$u['email']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <button class="gm-btn" type="submit">Add</button>
+            </form>
+            <?php else: ?><p class="gm-muted">No friends available to add.</p><?php endif; ?>
+        </div>
+        <?php endif; ?>
 
-    <div class="gm-card">
-        <h3>Leave group</h3>
-        <p class="gm-muted">If you are the only admin, promote another admin first.</p>
-        <form method="post" onsubmit="return confirm('Leave this group?');">
-            <input type="hidden" name="group_id" value="<?= $groupId ?>">
-            <input type="hidden" name="action" value="leave">
-            <button class="gm-btn danger">Leave Group</button>
-        </form>
+        <div class="gm-card">
+            <h3>Leave group</h3>
+            <p class="gm-muted">If you are the only admin, promote another admin first.</p>
+            <form method="post" onsubmit="return confirm('Leave this group?');">
+                <input type="hidden" name="group_id" value="<?= $groupId ?>">
+                <input type="hidden" name="action" value="leave">
+                <button class="gm-btn danger">Leave Group</button>
+            </form>
+        </div>
     </div>
-</div>
 </body>
+
 </html>

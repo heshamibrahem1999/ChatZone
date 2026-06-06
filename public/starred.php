@@ -78,22 +78,23 @@ require_once __DIR__ . '/partials/chat/head.php';
                 <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
                 <div>
                     <div class="header-name">⭐ Starred Messages</div>
-                    <div class="header-status"><?= count($starredMessages) ?> saved message<?= count($starredMessages) === 1 ? '' : 's' ?></div>
+                    <div class="header-status"><?= count($starredMessages) ?> saved
+                        message<?= count($starredMessages) === 1 ? '' : 's' ?></div>
                 </div>
             </div>
         </header>
 
         <section class="starred-page">
             <?php if (empty($starredMessages)): ?>
-                <div class="starred-empty">
-                    <div class="starred-empty-icon">⭐</div>
-                    <h2>No starred messages yet</h2>
-                    <p>Open any chat, hover over a message, and click ⭐ to save it here.</p>
-                </div>
+            <div class="starred-empty">
+                <div class="starred-empty-icon">⭐</div>
+                <h2>No starred messages yet</h2>
+                <p>Open any chat, hover over a message, and click ⭐ to save it here.</p>
+            </div>
             <?php else: ?>
-                <div class="starred-list">
-                    <?php foreach ($starredMessages as $item): ?>
-                        <?php
+            <div class="starred-list">
+                <?php foreach ($starredMessages as $item): ?>
+                <?php
                             $friendName = trim($item['first_name'] . ' ' . $item['last_name']);
                             $preview = starred_preview($item);
                             if (mb_strlen($preview) > 220) {
@@ -101,19 +102,21 @@ require_once __DIR__ . '/partials/chat/head.php';
                             }
                             $senderLabel = ((int)$item['sender_id'] === $userId) ? 'You' : $friendName;
                         ?>
-                        <a class="starred-item" href="chat.php?friendship=<?= (int)$item['friendship_id'] ?>#message-<?= (int)$item['message_id'] ?>">
-                            <img class="avatar" src="uploads/profiles/<?= e($item['profile_photo'] ?: 'default.png') ?>" alt="Friend">
-                            <div class="starred-content">
-                                <div class="starred-topline">
-                                    <strong><?= e($friendName) ?></strong>
-                                    <span><?= e($item['starred_at']) ?></span>
-                                </div>
-                                <div class="starred-sender"><?= e($senderLabel) ?> · <?= e($item['message_created_at']) ?></div>
-                                <div class="starred-preview"><?= nl2br(e($preview)) ?></div>
-                            </div>
-                        </a>
-                    <?php endforeach; ?>
-                </div>
+                <a class="starred-item"
+                    href="chat.php?friendship=<?= (int)$item['friendship_id'] ?>#message-<?= (int)$item['message_id'] ?>">
+                    <img class="avatar" src="uploads/profiles/<?= e($item['profile_photo'] ?: 'default.png') ?>"
+                        alt="Friend">
+                    <div class="starred-content">
+                        <div class="starred-topline">
+                            <strong><?= e($friendName) ?></strong>
+                            <span><?= e($item['starred_at']) ?></span>
+                        </div>
+                        <div class="starred-sender"><?= e($senderLabel) ?> · <?= e($item['message_created_at']) ?></div>
+                        <div class="starred-preview"><?= nl2br(e($preview)) ?></div>
+                    </div>
+                </a>
+                <?php endforeach; ?>
+            </div>
             <?php endif; ?>
         </section>
     </main>

@@ -22,26 +22,39 @@ $stmt->execute([$userId]);
 $mentions = $stmt->fetchAll();
 ?>
 <!doctype html>
-<html><head><meta charset="utf-8"><title>Mentions</title><link rel="stylesheet" href="assets/css/chat.css?v=20260530-cachefix-1">
-<link rel="stylesheet" href="assets/css/extracted/public__group_mentions.css"></head>
-<body><div class="page">
-<h2>🏷️ Mentions</h2>
-<p><a href="chat.php">Back to chat</a></p>
-<?php if (!$mentions): ?>
-    <p>No group mentions yet.</p>
-<?php endif; ?>
-<?php foreach ($mentions as $m): ?>
-    <div class="mention-card">
-        <div><strong><?= e($m['group_name']) ?></strong></div>
-        <div class="meta">From <?= e(trim($m['first_name'].' '.$m['last_name'])) ?> · <?= e($m['message_created_at']) ?></div>
-        <div class="body">
-            <?php
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Mentions</title>
+    <link rel="stylesheet" href="assets/css/chat.css?v=20260530-cachefix-1">
+    <link rel="stylesheet" href="assets/css/extracted/public__group_mentions.css">
+</head>
+
+<body>
+    <div class="page">
+        <h2>🏷️ Mentions</h2>
+        <p><a href="chat.php">Back to chat</a></p>
+        <?php if (!$mentions): ?>
+        <p>No group mentions yet.</p>
+        <?php endif; ?>
+        <?php foreach ($mentions as $m): ?>
+        <div class="mention-card">
+            <div><strong><?= e($m['group_name']) ?></strong></div>
+            <div class="meta">From <?= e(trim($m['first_name'].' '.$m['last_name'])) ?> ·
+                <?= e($m['message_created_at']) ?></div>
+            <div class="body">
+                <?php
             $body = $m['body'] ?: '[' . ($m['message_type'] ?: 'media') . ']';
             $safe = nl2br(e($body));
             echo preg_replace('/@\[([^\]]+)\]\(user:(\d+)\)/u', '<span class="mention-highlight">@$1</span>', preg_replace('/(^|\s)@([\p{L}\p{N}._-]+)/u', '$1<span class="mention-highlight">@$2</span>', $safe));
             ?>
+            </div>
+            <a href="group.php?id=<?= (int)$m['group_id'] ?>#group-message-<?= (int)$m['message_id'] ?>">Open
+                message</a>
         </div>
-        <a href="group.php?id=<?= (int)$m['group_id'] ?>#group-message-<?= (int)$m['message_id'] ?>">Open message</a>
+        <?php endforeach; ?>
     </div>
-<?php endforeach; ?>
-</div></body></html>
+</body>
+
+</html>

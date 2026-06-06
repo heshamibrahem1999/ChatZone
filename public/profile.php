@@ -179,11 +179,13 @@ $dir = $isArabic ? 'rtl' : 'ltr';
 ?>
 <!DOCTYPE html>
 <html lang="<?= e($langCode) ?>" dir="<?= e($dir) ?>">
+
 <head>
     <meta charset="UTF-8">
     <title><?= e($labels['edit_profile'] ?? 'Edit Profile') ?> - ChatZone</title>
     <link rel="stylesheet" href="assets/css/auth.css">
 </head>
+
 <body>
     <main class="auth-page">
         <section class="auth-card settings-card">
@@ -193,16 +195,13 @@ $dir = $isArabic ? 'rtl' : 'ltr';
             <p class="auth-subtitle">Update your account, appearance, language, and profile photo.</p>
 
             <?php if ($message): ?>
-                <div class="alert <?= htmlspecialchars($messageType) ?>">
-                    <?= htmlspecialchars($message) ?>
-                </div>
+            <div class="alert <?= htmlspecialchars($messageType) ?>">
+                <?= htmlspecialchars($message) ?>
+            </div>
             <?php endif; ?>
 
-            <img
-                class="profile-photo-preview"
-                src="uploads/profiles/<?= e($user['profile_photo'] ?: 'default.png') ?>"
-                alt="Profile photo"
-            >
+            <img class="profile-photo-preview" src="uploads/profiles/<?= e($user['profile_photo'] ?: 'default.png') ?>"
+                alt="Profile photo">
 
             <form method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
@@ -225,14 +224,16 @@ $dir = $isArabic ? 'rtl' : 'ltr';
 
                 <div class="form-group">
                     <label>About / Bio</label>
-                    <textarea name="about" maxlength="160" rows="3" placeholder="Available, busy, at work..." style="width:100%;resize:vertical;"><?= e($user['about'] ?? '') ?></textarea>
+                    <textarea name="about" maxlength="160" rows="3" placeholder="Available, busy, at work..."
+                        style="width:100%;resize:vertical;"><?= e($user['about'] ?? '') ?></textarea>
                     <small style="color:#667781;">Max 160 characters.</small>
                 </div>
 
                 <div class="form-group">
                     <label><?= e($labels['language'] ?? 'Language') ?></label>
                     <select name="language">
-                        <option value="English" <?= $user['language'] === 'English' ? 'selected' : '' ?>>English</option>
+                        <option value="English" <?= $user['language'] === 'English' ? 'selected' : '' ?>>English
+                        </option>
                         <option value="Arabic" <?= $user['language'] === 'Arabic' ? 'selected' : '' ?>>Arabic</option>
                         <option value="French" <?= $user['language'] === 'French' ? 'selected' : '' ?>>French</option>
                     </select>
@@ -256,7 +257,8 @@ $dir = $isArabic ? 'rtl' : 'ltr';
 
                     <div class="form-group">
                         <label><?= e($labels['text_background'] ?? 'Message Bubble') ?></label>
-                        <input type="color" name="text_background" value="<?= e($user['text_background'] ?: '#d9fdd3') ?>">
+                        <input type="color" name="text_background"
+                            value="<?= e($user['text_background'] ?: '#d9fdd3') ?>">
                     </div>
                 </div>
 
@@ -285,4 +287,5 @@ $dir = $isArabic ? 'rtl' : 'ltr';
         </section>
     </main>
 </body>
+
 </html>

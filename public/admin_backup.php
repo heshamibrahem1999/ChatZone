@@ -121,6 +121,7 @@ try {
 ?>
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -128,40 +129,51 @@ try {
     <link rel="stylesheet" href="assets/css/chat.css?v=20260530-cachefix-1">
     <link rel="stylesheet" href="assets/css/extracted/public__admin_backup.css">
 </head>
+
 <body>
-<main class="wrap">
-    <div class="top">
-        <div>
-            <h1>🧰 Database Backup</h1>
-            <p class="muted">Export all ChatZone tables as one SQL file before testing or updating.</p>
+    <main class="wrap">
+        <div class="top">
+            <div>
+                <h1>🧰 Database Backup</h1>
+                <p class="muted">Export all ChatZone tables as one SQL file before testing or updating.</p>
+            </div>
+            <div>
+                <a class="btn secondary" href="admin_dashboard.php">← Dashboard</a>
+                <a class="btn secondary" href="chat.php">Chat</a>
+            </div>
         </div>
-        <div>
-            <a class="btn secondary" href="admin_dashboard.php">← Dashboard</a>
-            <a class="btn secondary" href="chat.php">Chat</a>
-        </div>
-    </div>
 
-    <div class="warn">Keep the downloaded SQL file private. It may contain users, messages, reports, and uploaded file paths.</div>
+        <div class="warn">Keep the downloaded SQL file private. It may contain users, messages, reports, and uploaded
+            file paths.</div>
 
-    <section class="card">
-        <form method="post">
-            <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
-            <button class="btn" type="submit">⬇️ Download SQL Backup</button>
-        </form>
-    </section>
+        <section class="card">
+            <form method="post">
+                <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+                <button class="btn" type="submit">⬇️ Download SQL Backup</button>
+            </form>
+        </section>
 
-    <section class="card">
-        <h2>Tables included</h2>
-        <?php if (!empty($error ?? '')): ?><p class="warn"><?= e($error) ?></p><?php endif; ?>
-        <table class="table">
-            <thead><tr><th>Table</th><th>Rows</th></tr></thead>
-            <tbody>
-            <?php foreach ($tables as $t): ?>
-                <tr><td><?= e($t['name']) ?></td><td><?= (int)$t['rows'] ?></td></tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
-    </section>
-</main>
+        <section class="card">
+            <h2>Tables included</h2>
+            <?php if (!empty($error ?? '')): ?><p class="warn"><?= e($error) ?></p><?php endif; ?>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Table</th>
+                        <th>Rows</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($tables as $t): ?>
+                    <tr>
+                        <td><?= e($t['name']) ?></td>
+                        <td><?= (int)$t['rows'] ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </section>
+    </main>
 </body>
+
 </html>

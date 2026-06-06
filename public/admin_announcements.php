@@ -65,54 +65,71 @@ $announcements = $stmt->fetchAll();
 ?>
 <!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Announcements - ChatZone</title>
-<link rel="stylesheet" href="assets/css/chat.css?v=20260530-cachefix-1">
-<link rel="stylesheet" href="assets/css/extracted/public__admin_announcements.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Announcements - ChatZone</title>
+    <link rel="stylesheet" href="assets/css/chat.css?v=20260530-cachefix-1">
+    <link rel="stylesheet" href="assets/css/extracted/public__admin_announcements.css">
 </head>
+
 <body>
-<main class="wrap">
-    <div class="top">
-        <div><h1>📢 Announcements</h1><p class="muted">Post site-wide messages shown at the top of ChatZone.</p></div>
-        <div><a class="btn btn-light" href="admin_dashboard.php">Dashboard</a> <a class="btn" href="chat.php">Chat</a></div>
-    </div>
-    <?php if ($flash): ?><div class="flash"><?= e($flash) ?></div><?php endif; ?>
-    <section class="card">
-        <h2>Create announcement</h2>
-        <form method="post" class="form-grid">
-            <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
-            <input type="hidden" name="action" value="create">
-            <input type="text" name="title" maxlength="160" placeholder="Title" required>
-            <textarea name="body" placeholder="Announcement message" required></textarea>
-            <select name="type">
-                <option value="info">Info</option>
-                <option value="success">Success</option>
-                <option value="warning">Warning</option>
-                <option value="danger">Danger</option>
-            </select>
-            <button class="btn" type="submit">Publish</button>
-        </form>
-    </section>
-    <section class="card">
-        <h2>All announcements</h2>
-        <?php if (empty($announcements)): ?><p class="muted">No announcements yet.</p><?php endif; ?>
-        <?php foreach ($announcements as $a): ?>
+    <main class="wrap">
+        <div class="top">
+            <div>
+                <h1>📢 Announcements</h1>
+                <p class="muted">Post site-wide messages shown at the top of ChatZone.</p>
+            </div>
+            <div><a class="btn btn-light" href="admin_dashboard.php">Dashboard</a> <a class="btn"
+                    href="chat.php">Chat</a></div>
+        </div>
+        <?php if ($flash): ?><div class="flash"><?= e($flash) ?></div><?php endif; ?>
+        <section class="card">
+            <h2>Create announcement</h2>
+            <form method="post" class="form-grid">
+                <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+                <input type="hidden" name="action" value="create">
+                <input type="text" name="title" maxlength="160" placeholder="Title" required>
+                <textarea name="body" placeholder="Announcement message" required></textarea>
+                <select name="type">
+                    <option value="info">Info</option>
+                    <option value="success">Success</option>
+                    <option value="warning">Warning</option>
+                    <option value="danger">Danger</option>
+                </select>
+                <button class="btn" type="submit">Publish</button>
+            </form>
+        </section>
+        <section class="card">
+            <h2>All announcements</h2>
+            <?php if (empty($announcements)): ?><p class="muted">No announcements yet.</p><?php endif; ?>
+            <?php foreach ($announcements as $a): ?>
             <div class="ann">
                 <div>
                     <b><?= e($a['title']) ?></b>
                     <span class="badge"><?= e($a['type']) ?></span>
-                    <span class="badge <?= (int)$a['is_active'] === 1 ? 'active' : 'off' ?>"><?= (int)$a['is_active'] === 1 ? 'Active' : 'Hidden' ?></span>
+                    <span
+                        class="badge <?= (int)$a['is_active'] === 1 ? 'active' : 'off' ?>"><?= (int)$a['is_active'] === 1 ? 'Active' : 'Hidden' ?></span>
                     <p><?= nl2br(e($a['body'])) ?></p>
-                    <div class="muted">By <?= e(trim(($a['first_name'] ?? '') . ' ' . ($a['last_name'] ?? '')) ?: 'Admin') ?> · <?= e($a['created_at']) ?></div>
+                    <div class="muted">By
+                        <?= e(trim(($a['first_name'] ?? '') . ' ' . ($a['last_name'] ?? '')) ?: 'Admin') ?> ·
+                        <?= e($a['created_at']) ?></div>
                 </div>
                 <div class="actions">
-                    <form method="post"><input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>"><input type="hidden" name="action" value="toggle"><input type="hidden" name="id" value="<?= (int)$a['id'] ?>"><button class="btn btn-light" type="submit"><?= (int)$a['is_active'] === 1 ? 'Hide' : 'Show' ?></button></form>
-                    <form method="post" onsubmit="return confirm('Delete this announcement?')"><input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>"><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="<?= (int)$a['id'] ?>"><button class="btn btn-danger" type="submit">Delete</button></form>
+                    <form method="post"><input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>"><input
+                            type="hidden" name="action" value="toggle"><input type="hidden" name="id"
+                            value="<?= (int)$a['id'] ?>"><button class="btn btn-light"
+                            type="submit"><?= (int)$a['is_active'] === 1 ? 'Hide' : 'Show' ?></button></form>
+                    <form method="post" onsubmit="return confirm('Delete this announcement?')"><input type="hidden"
+                            name="csrf_token" value="<?= e(csrf_token()) ?>"><input type="hidden" name="action"
+                            value="delete"><input type="hidden" name="id" value="<?= (int)$a['id'] ?>"><button
+                            class="btn btn-danger" type="submit">Delete</button></form>
                 </div>
             </div>
-        <?php endforeach; ?>
-    </section>
-</main>
+            <?php endforeach; ?>
+        </section>
+    </main>
 </body>
+
 </html>

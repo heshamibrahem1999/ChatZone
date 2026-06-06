@@ -36,27 +36,30 @@ if ($group && $_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!doctype html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<title>Join Group</title>
-<link rel="stylesheet" href="assets/css/chat.css?v=20260530-cachefix-1">
-<link rel="stylesheet" href="assets/css/extracted/public__group_join.css">
+    <meta charset="utf-8">
+    <title>Join Group</title>
+    <link rel="stylesheet" href="assets/css/chat.css?v=20260530-cachefix-1">
+    <link rel="stylesheet" href="assets/css/extracted/public__group_join.css">
 </head>
+
 <body class="settings-page">
-<div class="join-card">
-<?php if ($error): ?>
-    <h2>Invite Error</h2>
-    <div class="error"><?= e($error) ?></div>
-    <p><a href="chat.php">Back to chat</a></p>
-<?php else: ?>
-    <h2>Join group</h2>
-    <p>You are joining:</p>
-    <h3>👥 <?= e($group['name']) ?></h3>
-    <form method="post">
-        <button class="btn">Join Group</button>
-        <a style="margin-left:10px;" href="chat.php">Cancel</a>
-    </form>
-<?php endif; ?>
-</div>
+    <div class="join-card">
+        <?php if ($error): ?>
+        <h2>Invite Error</h2>
+        <div class="error"><?= e($error) ?></div>
+        <p><a href="chat.php">Back to chat</a></p>
+        <?php else: ?>
+        <h2>Join group</h2>
+        <p>You are joining:</p>
+        <h3>👥 <?= e($group['name']) ?></h3>
+        <form method="post">
+            <button class="btn">Join Group</button>
+            <a style="margin-left:10px;" href="chat.php">Cancel</a>
+        </form>
+        <?php endif; ?>
+    </div>
 </body>
+
 </html>
